@@ -5,11 +5,15 @@
 "
 "
 " disabled plugin cache for now so that it can be sourced each time
- if exists('g:vt_plugin_loaded')
-     finish
- endif
+if exists('g:vt_plugin_loaded')
+    finish
+endif
 
- let g:vt_plugin_loaded = 1
+let g:vt_plugin_loaded = 1
+
+if !exists('g:tmpl_auto_initialize')
+    let g:tmpl_auto_initialize = 1
+endif
 
 " Templates
 " TIMESTAMP:    DAY, DAY_FULL, DATE, MONTH, MONTH_SHORT, MONTH_FULL,
