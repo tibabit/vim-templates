@@ -26,7 +26,7 @@ function <SID>EscapeTemplate(tmpl)
 endfunction
 
 function <SID>ExpandTemplate(tmpl, value)
-    silent! execute "%s/%". <SID>EscapeTemplate(a:tmpl) ."%/". <SID>EscapeTemplate(a:value) ."/gI"
+    silent! execute "%s/{{". <SID>EscapeTemplate(a:tmpl) ."}}/". <SID>EscapeTemplate(a:value) ."/gI"
 endfunction
 
 function <SID>ExpandTimestampTemplates()
