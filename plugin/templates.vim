@@ -89,7 +89,7 @@ function <SID>ExpandLicenseTemplates()
     let l:license = exists("g:tmpl_license") ? g:tmpl_license : "MIT"
 
     let l:company = exists("g:tmpl_company") ? g:tmpl_company : ""
-    let l:copyright = exists("g:tmpl_copyright") ? g:tmpl_copyright : "Copyrighti (c) ".l:company
+    let l:copyright = exists("g:tmpl_copyright") ? g:tmpl_copyright : "Copyright (c) ".l:company
 
     call <SID>ExpandTemplate("LICENSE", l:license)
     call <SID>ExpandTemplate("COPYRIGHT", l:copyright)
@@ -127,12 +127,32 @@ function <SID>ExpandLicenseTemplates()
 
 endfunction
 
+function <SID>MoveCursor()
+    normal gg " go to first line
+    " serach for cursor if it is found then move cursor there
+    if (search("{{CURSOR}}", "W"))
+        let l:lineno = line(".")
+        let l:colno = col(".")
+        s/{{CURSOR}}// " remove cursor
+        call cursor(l:lineno, l:colno)
+        return 1
+    endif
+    return 0
+endfunction
+
 function <SID>ExpandAllTemplates()
+    normal mm " mark the current position so that we can return to it if cursor is not found
+
     call <SID>ExpandTimestampTemplates()
     call <SID>ExpandAuthoringTemplates()
     call <SID>ExpandFilePathTemplates()
     call <SID>ExpandOtherTemplates()
     call <SID>ExpandLicenseTemplates()
+    let l:cusor_found = <SID>MoveCursor()
+
+    if !l:cusor_found
+        normal `m " return to old cursor position
+    endif
 endfunction
 
 
