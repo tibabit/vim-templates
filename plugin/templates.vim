@@ -20,6 +20,7 @@
 " COMPANY:      COMAPNY
 " CURSOR:       CURSOR
 " LICENSE:      LICENSE, LICENSE_FILE, COPYRIGHT
+" LANGUAGES:    MACRO_GUARD, MACRO_GUARD_FULL, PACKAGE
 
 function <SID>EscapeTemplate(tmpl)
     return escape(a:tmpl, "/")
@@ -27,6 +28,10 @@ endfunction
 
 function <SID>ExpandTemplate(tmpl, value)
     silent! execute "%s/{{". <SID>EscapeTemplate(a:tmpl) ."}}/". <SID>EscapeTemplate(a:value) ."/gI"
+endfunction
+
+function <SID>PrepareMacro(str)
+    return toupper(tr(a:str, '/.-', '___'))
 endfunction
 
 function <SID>ExpandTimestampTemplates()
@@ -127,6 +132,14 @@ function <SID>ExpandLicenseTemplates()
 
 endfunction
 
+function <SID>ExpandLanguageTemplates()
+    let l:macro_guard = <SID>PrepareMacro(expand("%:t"))
+    let l:macro_guard_full = <SID>PrepareMacro(@%)
+
+    call <SID>ExpandTemplate("MACRO_GUARD", l:macro_guard)
+    call <SID>ExpandTemplate("MACRO_GUARD_FULL", l:macro_guard_full)
+endfunction
+
 function <SID>MoveCursor()
     normal gg " go to first line
     " serach for cursor if it is found then move cursor there
@@ -140,6 +153,7 @@ function <SID>MoveCursor()
     return 0
 endfunction
 
+" Expand all templates present in current file
 function <SID>ExpandAllTemplates()
     normal mm " mark the current position so that we can return to it if cursor is not found
 
@@ -148,6 +162,8 @@ function <SID>ExpandAllTemplates()
     call <SID>ExpandFilePathTemplates()
     call <SID>ExpandOtherTemplates()
     call <SID>ExpandLicenseTemplates()
+    call <SID>ExpandLanguageTemplates()
+
     let l:cusor_found = <SID>MoveCursor()
 
     if !l:cusor_found
@@ -155,6 +171,51 @@ function <SID>ExpandAllTemplates()
     endif
 endfunction
 
+" Initialize template from given template search path
+function <SID>InitializeTemplateForExtension(extension, template_path)
+    let l:template_path = fnameescape(a:template_path."/templates/".a:extension.".tmpl")
+    if (filereadable(l:template_path))
+        execute "silent r ".l:template_path
+        return 1
+    endif
+    return 0
+endfunction
+
+" Insert content of template file for current file into the buffer and expand
+" all templates
+" @param a:ext extension of current file or empty, in which case extension
+" will be automatically detected
+function <SID>InitializeTemplate(...)
+    let l:tmpl_paths = []
+    " Paths to search for templates files
+    let l:tmpl_paths = add(l:tmpl_paths, expand("%:p:h"))
+
+    " user defined search paths
+    if (!exists("g:tmpl_search_paths"))
+        let g:tmpl_search_paths = []
+    endif
+    let l:tmpl_paths = l:tmpl_paths + g:tmpl_search_paths
+
+    " default template path
+    let l:tmpl_paths = add(l:tmpl_paths, expand("<sfile>:p:h"))
+
+    " get extension of file
+    if (a:0 == 0)
+        let l:extension = expand("%:e")
+    else
+        let l:extension = a:1
+    endif
+
+    for l:path in l:tmpl_paths
+        let l:initialized = <SID>InitializeTemplateForExtension(l:extension, l:path)
+        if (l:initialized)
+            call <SID>ExpandAllTemplates()
+            break
+        endif
+    endfor
+endfunction
+
 
 " Define commands
-command -nargs=0 TmpltExpand         :call <SID>ExpandAllTemplates()
+command -nargs=0 TemplateExpand        :call <SID>ExpandAllTemplates()
+command -nargs=? TemplateInit          :call <SID>InitializeTemplate(<f-args>)

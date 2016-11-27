@@ -12,7 +12,6 @@
 {{HOSTNAME}}
 {{LICENSE}}
 {{CURSOR}}
-{{LICENSE_FILE}}
 {{MONTH}}
 {{MONTH_FULL}}
 {{MONTH_SHORT}}
@@ -23,3 +22,15 @@
 {{TIMESTAMP}}
 {{TODAY}}
 {{YEAR}}
+
+#ifndef {{MACRO_GUARD}}
+#define {{MACRO_GUARD}}
+
+
+#endif // {{MACRO_GUARD}}
+
+#ifndef {{MACRO_GUARD_FULL}}
+#define {{MACRO_GUARD_FULL}}
+
+
+#endif // {{MACRO_GUARD_FULL}}
