@@ -181,6 +181,10 @@ function <SID>InitializeTemplateForExtension(extension, template_path)
     return 0
 endfunction
 
+
+" get default template directory
+let s:default_template_directory = expand('<sfile>:p:h:h')
+
 " Insert content of template file for current file into the buffer and expand
 " all templates
 " @param a:ext extension of current file or empty, in which case extension
@@ -197,7 +201,7 @@ function <SID>InitializeTemplate(...)
     let l:tmpl_paths = l:tmpl_paths + g:tmpl_search_paths
 
     " default template path
-    let l:tmpl_paths = add(l:tmpl_paths, expand('<sfile>:p:h'))
+    let l:tmpl_paths = add(l:tmpl_paths, s:default_template_directory)
 
     " get extension of file
     if (a:0 == 0)
@@ -215,7 +219,17 @@ function <SID>InitializeTemplate(...)
     endfor
 endfunction
 
+" Automatically initialze file from template when a new file is created
+function <SID>AutoInitializeTemplate()
+    if (exists('g:tmpl_auto_initialize') && g:tmpl_auto_initialize == 1)
+        call <SID>InitializeTemplate()
+    endif
+endfunction
 
+
+" Autogroup commands
+au BufNewFile *.* TemplateAutoInit
 " Define commands
-command -nargs=0 TemplateExpand        :call <SID>ExpandAllTemplates()
-command -nargs=? TemplateInit          :call <SID>InitializeTemplate(<f-args>)
+command -nargs=0 TemplateExpand         :call <SID>ExpandAllTemplates()
+command -nargs=? TemplateInit           :call <SID>InitializeTemplate(<f-args>)
+command -nargs=0 TemplateAutoInit       :call <SID>AutoInitializeTemplate()

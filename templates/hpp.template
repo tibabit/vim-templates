@@ -13,7 +13,7 @@ class {{CLASS}}
 {
     public:
         {{CLASS}} ({{CURSOR}});
-        ~{{CLASS}} ();
+        virtual ~{{CLASS}} ();
     private:
         /* private data */
 };
