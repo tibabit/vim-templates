@@ -1,10 +1,15 @@
-
+" Project : vim-templates
+" Author  : vikash
+" Created : 27/11/2016
+" License : MIT
+"
+"
 " disabled plugin cache for now so that it can be sourced each time
-" if exists("g:vt_plugin_loaded")
-"     finish
-" endif
-" 
-" let g:vt_plugin_loaded = 1
+ if exists("g:vt_plugin_loaded")
+     finish
+ endif
+
+ let g:vt_plugin_loaded = 1
 
 " Templates
 " TIMESTAMP:    DAY, DAY_FULL, DATE, MONTH, MONTH_SHORT, MONTH_FULL,
@@ -12,9 +17,9 @@
 " AUTHOR:       NAME, HOSTNAME, EMAIL
 " FILE:         FILE, FILEE, FILEF, FILER
 " PROJECT:      PROJECT
-" LICENSE:      LICENSE, LICENSE_FILE, COPYRIGHT
 " COMPANY:      COMAPNY
 " CURSOR:       CURSOR
+" LICENSE:      LICENSE, LICENSE_FILE, COPYRIGHT
 
 function <SID>EscapeTemplate(tmpl)
     return escape(a:tmpl, "/")
@@ -50,7 +55,7 @@ function <SID>ExpandTimestampTemplates()
     call <SID>ExpandTemplate("TIMESTAMP", l:timestamp)
 endfunction
 
-function <SID>ExpandAuthoringTemplate()
+function <SID>ExpandAuthoringTemplates()
 
     let g:tmpl_author_email = "vikash@gmail.com"
 
@@ -64,17 +69,70 @@ function <SID>ExpandAuthoringTemplate()
     call <SID>ExpandTemplate("EMAIL", l:author_email)
 endfunction
 
-function <SID>ExpandFilePathTemplate()
+function <SID>ExpandFilePathTemplates()
     call <SID>ExpandTemplate("FILE", expand("%:t:r"))
     call <SID>ExpandTemplate("FILEE", expand("%:t"))
     call <SID>ExpandTemplate("FILEF", expand("%:p"))
     call <SID>ExpandTemplate("FILER", @%)
 endfunction
 
+function <SID>ExpandOtherTemplates()
+    if (exists("g:tmpl_project"))
+        call <SID>ExpandTemplate("PROJECT", g:tmpl_project)
+    endif
+    if (exists("g:tmpl_company"))
+        call <SID>ExpandTemplate("COMPANY", g:tmpl_company)
+    endif
+endfunction
+
+function <SID>ExpandLicenseTemplates()
+    let l:license = exists("g:tmpl_license") ? g:tmpl_license : "MIT"
+
+    let l:company = exists("g:tmpl_company") ? g:tmpl_company : ""
+    let l:copyright = exists("g:tmpl_copyright") ? g:tmpl_copyright : "Copyrighti (c) ".l:company
+
+    call <SID>ExpandTemplate("LICENSE", l:license)
+    call <SID>ExpandTemplate("COPYRIGHT", l:copyright)
+
+    " Expand lincense file
+
+    " Read license file contents
+    " let l:license_files = [
+    "             \ "LICENSE",
+    "             \ "LICENSE.txt",
+    "             \ "LICENSE.md",
+    "             \ "license.txt",
+    "             \ "license.md"]
+    " if (exists("g:tmpl_license_file"))
+    "     let l:file_name = fnameescape(g:tmpl_license_file)
+    "     if (filereadable(l:file_name))
+    "         let l:license = join(readfile(l:file_name), "\n")
+    "     else
+    "         echom "file ".l:file_name." does not exist or cannot be read"
+    "     endif
+    " else
+    "     for l:file in l:license_files
+    "         let l:file_name = fnameescape(l:file)
+    "         if (filereadable(l:file_name))
+    "             let l:license = join(readfile(l:file_name), "\n")
+    "             break
+    "         else
+    "             echom "file ".l:file_name." does not exist or cannot be read"
+    "         endif
+    "     endfor
+    " endif
+
+    " expand license file content
+    " call <SID>ExpandTemplate("LICENSE_FILE", l:license)
+
+endfunction
+
 function <SID>ExpandAllTemplates()
     call <SID>ExpandTimestampTemplates()
-    call <SID>ExpandAuthoringTemplate()
-    call <SID>ExpandFilePathTemplate()
+    call <SID>ExpandAuthoringTemplates()
+    call <SID>ExpandFilePathTemplates()
+    call <SID>ExpandOtherTemplates()
+    call <SID>ExpandLicenseTemplates()
 endfunction
 
 
