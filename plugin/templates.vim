@@ -7,10 +7,10 @@
 " let g:vt_plugin_loaded = 1
 
 " Templates
-" TIMESTAMP:    DAY, DAY_FULL DATE, MONTH, MONTH_SHORT, MONTH_FULL,
+" TIMESTAMP:    DAY, DAY_FULL, DATE, MONTH, MONTH_SHORT, MONTH_FULL,
 "               YEAR, TODAY, TIME, TIME_12, TIMESTAMP
 " AUTHOR:       NAME, HOSTNAME, EMAIL
-" FILE:         FILE, FILE_EXT, FILE_FULL
+" FILE:         FILE, FILEE, FILEF, FILER
 " PROJECT:      PROJECT
 " LICENSE:      LICENSE, LICENSE_FILE, COPYRIGHT
 " COMPANY:      COMAPNY
@@ -64,9 +64,17 @@ function <SID>ExpandAuthoringTemplate()
     call <SID>ExpandTemplate("EMAIL", l:author_email)
 endfunction
 
+function <SID>ExpandFilePathTemplate()
+    call <SID>ExpandTemplate("FILE", expand("%:t:r"))
+    call <SID>ExpandTemplate("FILEE", expand("%:t"))
+    call <SID>ExpandTemplate("FILEF", expand("%:p"))
+    call <SID>ExpandTemplate("FILER", @%)
+endfunction
+
 function <SID>ExpandAllTemplates()
     call <SID>ExpandTimestampTemplates()
     call <SID>ExpandAuthoringTemplate()
+    call <SID>ExpandFilePathTemplate()
 endfunction
 
 
