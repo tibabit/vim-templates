@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>vim-templates by tibabit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">vim-templates</h1>
+      <h2 class="project-tagline">create files from templates</h2>
+      <a href="https://github.com/tibabit/vim-templates" class="btn">View on GitHub</a>
+      <a href="https://github.com/tibabit/vim-templates/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/tibabit/vim-templates/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="vim-templates" class="anchor" href="#vim-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>vim-templates</h1>
+
+<p>Create files from predefined templates</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<h3>
+<a id="vundle" class="anchor" href="#vundle" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Vundle</h3>
+
+<pre><code>Plugin 'tibabit/vim-templates'
+</code></pre>
+
+<h3>
+<a id="vim-plug" class="anchor" href="#vim-plug" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>vim-plug</h3>
+
+<pre><code>Plug 'tibabit/vim-templates'
+</code></pre>
+
+<h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h1>
+
+<h2>
+<a id="using-default-templates" class="anchor" href="#using-default-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using default templates</h2>
+
+<ul>
+<li><p><code>TemplateInit</code> - Takes 0 or more argument and initializes file with template and expands all placeholders defined in the template. Argument provided is name of the template file, in most cases extension of the file. If no argument is provided file extension is extracted from file name (e.g. :TemplateInit cpp)</p></li>
+<li><p><code>TemplateExpand</code>-  Does not take any argument, expands all the placeholders present in file. Helpful in updating existing file</p></li>
+</ul>
+
+<h1>
+<a id="customization" class="anchor" href="#customization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Customization</h1>
+
+<h2>
+<a id="creating-your-own-templates" class="anchor" href="#creating-your-own-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating your own templates</h2>
+
+<ul>
+<li>Create a file .template. e.g if you want to create a template file for c++ main file you can name it cppmain.template or cppm.template</li>
+<li>Open the file and edit template</li>
+</ul>
+
+<div class="highlight highlight-source-c++"><pre><span class="pl-c">/**</span>
+<span class="pl-c"> * @author      : {{NAME}} ({{EMAIL}})</span>
+<span class="pl-c"> * @created     : {{TODAY}}</span>
+<span class="pl-c"> * @filename    : {{FILE}}</span>
+<span class="pl-c"> */</span>
+
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
+
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>(<span class="pl-k">int</span> argc, <span class="pl-k">char</span>** argv)
+{
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+
+<ul>
+<li>Add template directory to template search path in .vimrc file. For example if you template is present in templates directory under HOME then add following line in your .vimrc file</li>
+</ul>
+
+<pre><code>set g:tmpl_search_paths = ['~/templates']
+</code></pre>
+
+<ul>
+<li>Reopen vim and you are good to go.</li>
+</ul>
+
+<p><strong>NOTE:</strong> Templates are searched in following order
+1. <code>templates</code> folder under current working directory
+2. search paths defined by g:tmpl_search_paths in .vimrc file
+3. <code>templates</code> folder in plugin directory</p>
+
+<p><code>{{NAME}}, {{EMAIL}}, {{FILE}} and {{TODAY}}</code>, defined above are placeholders which are expanded to their default values or as configured in .vimrc file</p>
+
+<h3>
+<a id="placeholders" class="anchor" href="#placeholders" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Placeholders</h3>
+
+<p>Following are the list of placeholders currently supprted by this plugin</p>
+
+<h4>
+<a id="date--time" class="anchor" href="#date--time" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Date &amp; Time</h4>
+
+<ul>
+<li>
+<code>DAY</code> : Day of the week in short form (Mon, Tue, Wed, etc,)</li>
+<li>
+<code>DAY_FULL</code> : Day of the week in full (Monday, Tueseday, etc.)</li>
+<li>
+<code>DATE</code> : Date of the month (01 to 31)</li>
+<li>
+<code>MONTH</code>: Month of the year (01 to 12)</li>
+<li>
+<code>MONTH_SHORT</code> : Short name of the month (Jan, Feb, Mar, etc.)</li>
+<li>
+<code>MONTH_FULL</code> : Full month name (January, February, etc.)</li>
+<li>
+<code>YEAR</code> : current year (2016)</li>
+<li>
+<code>TODAY</code>: Todays date in dd/mm/yyyy format</li>
+<li>
+<code>TIME</code> : Current time in 24 our format</li>
+<li>
+<code>TIME_12</code> : Current time in 12 hour format</li>
+<li>
+<code>TIMESTAMP</code> : Current Timestamp, e.g.: Sunday Nov 27, 2016 15:33:33 IST </li>
+</ul>
+
+<h4>
+<a id="authoring" class="anchor" href="#authoring" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authoring</h4>
+
+<ul>
+<li>
+<code>NAME</code> : Name of the author, <code>g:tmpl_author_name</code>, default : <code>$USER</code>
+</li>
+<li>
+<code>HOSTNAME</code> : Name of the host machine, <code>g:tmpl_author_hostname</code>, default : <code>$HOSTNAME</code>
+</li>
+<li>
+<code>EMAIL</code> : Email of the author, <code>g:tmpl_author_email</code>, default : <code>$USER@$HOSTNAME</code>
+</li>
+</ul>
+
+<h4>
+<a id="file-name" class="anchor" href="#file-name" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>File name</h4>
+
+<ul>
+<li>
+<code>FILE</code> : Basename of the file <code>filename.ext -&gt; filename</code>
+</li>
+<li>
+<code>FILEE</code> : Filename with extension <code>filename.ext -&gt; filename.ext</code>
+</li>
+<li>
+<code>FILEF</code> : Absolute path of the file <code>/path/to/directory/filename.ext</code>
+</li>
+<li>
+<code>FILER</code> : Filepath relative to the current directory (pwd)<code>/relative/to/filename.ext</code>
+</li>
+</ul>
+
+<h4>
+<a id="license-and-copyright" class="anchor" href="#license-and-copyright" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License and Copyright</h4>
+
+<ul>
+<li>
+<code>LICENSE</code> : License of the project, <code>g:tmpl_license</code>, default : <code>MIT</code>
+</li>
+<li>
+<code>COPYRIGHT</code> : Copyright message, <code>g:tmpl_copyright</code>, default : <code>Copyright (c) g:tmpl_company</code>
+</li>
+</ul>
+
+<h4>
+<a id="others" class="anchor" href="#others" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Others</h4>
+
+<ul>
+<li>
+<code>PROJECT</code> : Name of the project, <code>g:tmpl_project</code>, default: <code>''</code>
+</li>
+<li>
+<code>COMPANY</code> : Name of the company, <code>g:tmpl_company</code>, default: <code>''</code>
+</li>
+<li>
+<code>MACRO_GUARD</code> : Macro guard for use in c/c++ files. <code>filename.h -&gt; FILENAME_H</code>. All dots(.) and dashes (-) present in filename are converted into underscores (_).</li>
+<li>
+<code>MACRO_GUARD_FULL</code> : Same as <code>MACRO_GUARD</code>, except relative path is used in place of file name. e.g. <code>relative/to/filename.h -&gt; RELATIVE_TO_FILENAME_H</code>
+</li>
+<li>
+<code>CLASS</code> : class name, same as <code>FILE</code>
+</li>
+<li>
+<code>CURSOR</code> : This is a spacial placeholder, it does not expand into anything but the cursor is placed at this location after the template expansion</li>
+</ul>
+
+<h2>
+<a id="auto-initialization" class="anchor" href="#auto-initialization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Auto initialization</h2>
+
+<p>By default auto initialization is set to true, so whenever a new file is created, file is automatically initialized with matching template. However you can dissable it by seting <code>g:tmpl_auto_initialize</code> to <code>0</code> in your .vimrc file.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/tibabit/vim-templates">vim-templates</a> is maintained by <a href="https://github.com/tibabit">tibabit</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
