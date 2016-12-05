@@ -179,7 +179,7 @@ endfunction
 function <SID>InitializeTemplateForExtension(extension, template_path)
     let l:template_path = fnameescape(a:template_path.'/'.a:extension.'.template')
     if (filereadable(l:template_path))
-        execute 'silent r '.l:template_path
+        execute 'silent 0r '.l:template_path
         return 1
     endif
     return 0
