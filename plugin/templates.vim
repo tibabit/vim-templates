@@ -201,7 +201,9 @@ function <SID>InitializeTemplate(...)
     if (!exists('g:tmpl_search_paths'))
         let g:tmpl_search_paths = []
     endif
-    let l:tmpl_paths = l:tmpl_paths + g:tmpl_search_paths
+    for l:path in g:tmpl_search_paths
+        let l:tmpl_paths = add(l:tmpl_paths, expand(l:path))
+    endfor
 
     " default template path
     let l:tmpl_paths = add(l:tmpl_paths, s:default_template_directory)
