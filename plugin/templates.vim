@@ -177,7 +177,7 @@ endfunction
 
 " Initialize template from given template search path
 function <SID>InitializeTemplateForExtension(extension, template_path)
-    let l:template_path = fnameescape(a:template_path.'/templates/'.a:extension.'.template')
+    let l:template_path = fnameescape(a:template_path.'/'.a:extension.'.template')
     if (filereadable(l:template_path))
         execute 'silent r '.l:template_path
         return 1
@@ -187,16 +187,15 @@ endfunction
 
 
 " get default template directory
-let s:default_template_directory = expand('<sfile>:p:h:h')
+let s:default_template_directory = expand('<sfile>:p:h:h') . '/templates'
 
 " Insert content of template file for current file into the buffer and expand
 " all templates
 " @param a:ext extension of current file or empty, in which case extension
 " will be automatically detected
 function <SID>InitializeTemplate(...)
-    let l:tmpl_paths = []
     " Paths to search for templates files
-    let l:tmpl_paths = add(l:tmpl_paths, expand('%:p:h'))
+    let l:tmpl_paths = finddir("templates", ";",-1)
 
     " user defined search paths
     if (!exists('g:tmpl_search_paths'))
