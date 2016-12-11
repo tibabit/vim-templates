@@ -175,10 +175,32 @@ function <SID>ExpandAllTemplates()
     endif
 endfunction
 
+" If the settings file exits in the template directory, then
+" it is read before expanding the templates. This can be used
+" to populate the tmpl_ ... variables with values specific to
+" a project or subtree
+let s:settings_file = "tmpl_settings.vim"
+
+" Try read a default varibles file if it exists
+function <SID>TryReadSettings(template_path)
+    let l:var_path = fnameescape(a:template_path.'/'.s:settings_file)
+    echo l:var_path
+    if (filereadable(l:var_path))
+        for line in readfile(l:var_path)
+            " Ignore lines that do not actually set our
+            " variables (for security reasons)
+            if line =~ '^let g:tmpl_'
+                execute l:line
+            endif
+        endfor
+    endif
+endfunction
+
 " Initialize template from given template search path
 function <SID>InitializeTemplateForExtension(extension, template_path)
     let l:template_path = fnameescape(a:template_path.'/'.a:extension.'.template')
     if (filereadable(l:template_path))
+        call <SID>TryReadSettings(a:template_path)
         execute 'silent 0r '.l:template_path
         return 1
     endif
