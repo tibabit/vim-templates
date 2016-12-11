@@ -24,7 +24,7 @@ Plug 'tibabit/vim-templates'
 # Customization
 ## Creating your own templates
 - Create a file `<template_name>.template` inside a folder which is searched
-  by the plugin( [see below](#Search paths)),
+  by the plugin( [see below](#search-paths)),
   e.g. if you want to create a template file for a c++ main file you
   can name it `cppmain.template` or `cppm.template`
 - Open the file and edit, for example
