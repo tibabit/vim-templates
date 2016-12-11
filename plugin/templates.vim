@@ -168,9 +168,9 @@ function <SID>ExpandAllTemplates()
     call <SID>ExpandLicenseTemplates()
     call <SID>ExpandLanguageTemplates()
 
-    let l:cusor_found = <SID>MoveCursor()
+    let l:cursor_found = <SID>MoveCursor()
 
-    if !l:cusor_found
+    if !l:cursor_found
         normal `m " return to old cursor position
     endif
 endfunction
