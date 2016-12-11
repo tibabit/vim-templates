@@ -13,15 +13,19 @@ Plug 'tibabit/vim-templates'
 
 # Usage
 ## Using default templates
-- `TemplateInit` - Takes 0 or more argument and initializes file with template and expands all placeholders defined in the template. Argument provided is name of the template file, in most cases extension of the file. If no argument is provided file extension is extracted from file name (e.g. :TemplateInit cpp)
+- `TemplateInit` - Takes 0 or more arguments, initializes file with the template and expands all placeholders defined in the template.
+  The argument provided is the name of the template file, in most cases the extension of the file.
+  If no argument is provided file extension is extracted from file name (e.g. ``:TemplateInit cpp``)
 
 
-- `TemplateExpand`-  Does not take any argument, expands all the placeholders present in file. Helpful in updating existing file
+- `TemplateExpand`-  Does not take any argument, expands all the placeholders present in file.
+  Helpful for updating an existing file
 
 # Customization
 ## Creating your own templates
 
-- Create a file <template_name>.template. e.g if you want to create a template file for c++ main file you can name it cppmain.template or cppm.template
+- Create a file <template_name>.template. e.g if you want to create a template file for a c++ main file
+  you can name it cppmain.template or cppm.template
 - Open the file and edit template
 
 ```CPP
@@ -40,7 +44,9 @@ int main(int argc, char** argv)
 	return 0;
 }
 ```
-- Add template directory to template search path in .vimrc file. For example if you template is present in templates directory under HOME then add following line in your .vimrc file
+- Add template directory to template search path in .vimrc file.
+  For example if your template is present in the ``templates`` directory under ``$HOME`` then
+  add following line in your ``.vimrc`` file
 
 ```
 set g:tmpl_search_paths = ['~/templates']
@@ -52,10 +58,11 @@ set g:tmpl_search_paths = ['~/templates']
 2. search paths defined by g:tmpl_search_paths in .vimrc file
 3. `templates` folder in plugin directory
 
-`{{NAME}}, {{EMAIL}}, {{FILE}} and {{TODAY}}`, defined above are placeholders which are expanded to their default values or as configured in .vimrc file
+`{{NAME}}`, `{{EMAIL}}`, `{{FILE}}` and `{{TODAY}}`, defined above are placeholders
+which are expanded to their default values or as configured in your `.vimrc` file
 
 ### Placeholders
-Following are the list of placeholders currently supprted by this plugin
+The Following placeholders are currently supported by this plugin
 
 #### Date & Time
 - `DAY` : Day of the week in short form (Mon, Tue, Wed, etc,)
