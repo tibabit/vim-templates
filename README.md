@@ -17,9 +17,13 @@ Plug 'tibabit/vim-templates'
   The argument provided is the name of the template file, in most cases the extension of the file.
   If no argument is provided file extension is extracted from file name (e.g. ``:TemplateInit cpp``)
 
-
 - `TemplateExpand`-  Does not take any argument, expands all the placeholders present in file.
   Helpful for updating an existing file
+
+## Auto initialization
+By default auto initialization is set to true, so whenever a new file is created,
+the file is automatically initialized if a template matches.
+This can be disabled by setting `g:tmpl_auto_initialize` to `0` in your `.vimrc`.
 
 # Customization
 ## Creating your own templates
@@ -46,10 +50,14 @@ int main(int argc, char** argv)
 ```
 - `{{NAME}}`, `{{EMAIL}}`, `{{FILE}}` and `{{TODAY}}`
 defined above are placeholders, which are expanded as soon as you call
-``:TemplateInit cppmain``.
+``:TemplateExpand``.
+- In a new file type ``:TemplateInit cppmain`` to both place the above
+  content inside the file and expand the placeholders.
+
 
 ### Search paths
 The plugin searches for templates as follows
+
 1. In folders named `templates` recursively up the directory tree,
    i.e. first in a directory `templates` under the current working
    directory, then in `../templates`, then '../../templates', ...
@@ -128,7 +136,4 @@ The Following placeholders are currently supported by this plugin
 - `MACRO_GUARD_FULL` : Same as `MACRO_GUARD`, except relative path is used in place of file name. e.g. `relative/to/filename.h -> RELATIVE_TO_FILENAME_H`
 - `CLASS` : class name, same as `FILE`
 - `CURSOR` : This is a spacial placeholder, it does not expand into anything but the cursor is placed at this location after the template expansion
-
-## Auto initialization
-By default auto initialization is set to true, so whenever a new file is created, file is automatically initialized with matching template. However you can dissable it by seting `g:tmpl_auto_initialize` to `0` in your .vimrc file.
 
