@@ -53,10 +53,13 @@ set g:tmpl_search_paths = ['~/templates']
 ```
 - Reopen vim and you are good to go.
 
-**NOTE:** Templates are searched in following order
-1. `templates` folder under current working directory
-2. search paths defined by g:tmpl_search_paths in .vimrc file
-3. `templates` folder in plugin directory
+### Search paths for templates
+Templates are searched as follows
+1. In folders named `templates` recursively up the directory tree,
+   i.e. first in a directory `templates` under the current working
+   directory, then in `../templates`, then '../../templates', ...
+2. In search paths defined by `g:tmpl_search_paths` in your `.vimrc` file
+3. The `templates` folder in this plugin's directory
 
 `{{NAME}}`, `{{EMAIL}}`, `{{FILE}}` and `{{TODAY}}`, defined above are placeholders
 which are expanded to their default values or as configured in your `.vimrc` file
