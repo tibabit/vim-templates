@@ -184,7 +184,6 @@ let s:settings_file = "tmpl_settings.vim"
 " Try read a default varibles file if it exists
 function <SID>TryReadSettings(template_path)
     let l:var_path = fnameescape(a:template_path.'/'.s:settings_file)
-    echo l:var_path
     if (filereadable(l:var_path))
         for line in readfile(l:var_path)
             " Ignore lines that do not actually set our
