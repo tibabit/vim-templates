@@ -2,9 +2,7 @@
 " Author  : vikash
 " Created : 27/11/2016
 " License : MIT
-"
-"
-" disabled plugin cache for now so that it can be sourced each time
+
 if exists('g:vt_plugin_loaded')
     finish
 endif
