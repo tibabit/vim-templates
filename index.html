@@ -46,9 +46,19 @@
 <a id="using-default-templates" class="anchor" href="#using-default-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using default templates</h2>
 
 <ul>
-<li><p><code>TemplateInit</code> - Takes 0 or more argument and initializes file with template and expands all placeholders defined in the template. Argument provided is name of the template file, in most cases extension of the file. If no argument is provided file extension is extracted from file name (e.g. :TemplateInit cpp)</p></li>
-<li><p><code>TemplateExpand</code>-  Does not take any argument, expands all the placeholders present in file. Helpful in updating existing file</p></li>
+<li><p><code>TemplateInit</code> - Takes 0 or more arguments, initializes file with the template and expands all placeholders defined in the template.
+The argument provided is the name of the template file, in most cases the extension of the file.
+If no argument is provided file extension is extracted from file name (e.g. <code>:TemplateInit cpp</code>)</p></li>
+<li><p><code>TemplateExpand</code>-  Does not take any argument, expands all the placeholders present in file.
+Helpful for updating an existing file</p></li>
 </ul>
+
+<h2>
+<a id="auto-initialization" class="anchor" href="#auto-initialization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Auto initialization</h2>
+
+<p>By default auto initialization is set to true, so whenever a new file is created,
+the file is automatically initialized if a template matches.
+This can be disabled by setting <code>g:tmpl_auto_initialize</code> to <code>0</code> in your <code>.vimrc</code>.</p>
 
 <h1>
 <a id="customization" class="anchor" href="#customization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Customization</h1>
@@ -57,8 +67,12 @@
 <a id="creating-your-own-templates" class="anchor" href="#creating-your-own-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating your own templates</h2>
 
 <ul>
-<li>Create a file .template. e.g if you want to create a template file for c++ main file you can name it cppmain.template or cppm.template</li>
-<li>Open the file and edit template</li>
+<li>Create a file <code>&lt;template_name&gt;.template</code> inside a folder which is searched
+by the plugin( <a href="#search-paths">see below</a>),
+e.g. if you want to create a template file for a c++ main file you
+can name it <code>cppmain.template</code> or <code>cppm.template</code>
+</li>
+<li>Open the file and edit, for example</li>
 </ul>
 
 <div class="highlight highlight-source-c++"><pre><span class="pl-c">/**</span>
@@ -77,27 +91,70 @@
 }</pre></div>
 
 <ul>
-<li>Add template directory to template search path in .vimrc file. For example if you template is present in templates directory under HOME then add following line in your .vimrc file</li>
+<li>
+<code>{{NAME}}</code>, <code>{{EMAIL}}</code>, <code>{{FILE}}</code> and <code>{{TODAY}}</code>
+defined above are placeholders, which are expanded as soon as you call
+<code>:TemplateExpand</code>.</li>
+<li>In a new file type <code>:TemplateInit cppmain</code> to both place the above
+content inside the file and expand the placeholders.</li>
 </ul>
+
+<h3>
+<a id="search-paths" class="anchor" href="#search-paths" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search paths</h3>
+
+<p>The plugin searches for templates as follows</p>
+
+<ol>
+<li>In folders named <code>templates</code> recursively up the directory tree,
+i.e. first in a directory <code>templates</code> under the current working
+directory, then in <code>../templates</code>, then '../../templates', ...</li>
+<li>In search paths defined by <code>g:tmpl_search_paths</code> in your <code>.vimrc</code> file</li>
+<li>The <code>templates</code> folder in this plugin's directory</li>
+</ol>
+
+<p>If you want to add a custom directory to the search path,
+e.g. if you placed them inside a <code>templates</code> directory under <code>$HOME</code> then
+add the following line in your <code>.vimrc</code> file:</p>
 
 <pre><code>set g:tmpl_search_paths = ['~/templates']
 </code></pre>
 
+<h3>
+<a id="configuring-the-placeholder-values" class="anchor" href="#configuring-the-placeholder-values" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuring the placeholder values</h3>
+
 <ul>
-<li>Reopen vim and you are good to go.</li>
+<li>The values into which certain placeholders expand may be influenced
+by settings in your <code>.vimrc</code>. For example <code>PROJECT</code> expands into the
+value of the variable <code>g:tmpl_project</code>. For more details see the
+list below.</li>
+<li>Other than that the expansion may also be influenced on a per-directory basis.
+If a matching template file is found in one of the directories of the
+search path, the plugin also checks whether a file called <code>tmpl_settings.vim</code>
+exists in the <em>same</em> directory. Note, than <em>no other</em> search directories
+are checked.
+If this is the case all its settings take preference over the <code>.vimrc</code>
+</li>
+<li>For example: In general you want the placeholder <code>EMAIL</code> to expand to
+<code>john.doe@example.com</code> in your templates, hence you place
+<code>
+let g:tmpl_author_email = 'john.doe@example.com'
+</code>
+in your <code>.vimrc</code>.<br>
+In the projects inside the folder <code>$HOME/my_cool_stuff</code>, however,
+you want your templates to show the email address <code>johns_projects@example.com</code>.
+So inside <code>$HOME/templates</code> you place a file <code>$HOME/my_cool_stuff/tmpl_settings.vim</code>
+with content
+<code>
+let g:tmpl_author_email = 'johns_projects@example.com'
+</code>
+and all template files in <code>$HOME/my_cool_stuff</code> will now have <code>EMAIL</code>
+expanding to the latter value.</li>
 </ul>
-
-<p><strong>NOTE:</strong> Templates are searched in following order
-1. <code>templates</code> folder under current working directory
-2. search paths defined by g:tmpl_search_paths in .vimrc file
-3. <code>templates</code> folder in plugin directory</p>
-
-<p><code>{{NAME}}, {{EMAIL}}, {{FILE}} and {{TODAY}}</code>, defined above are placeholders which are expanded to their default values or as configured in .vimrc file</p>
 
 <h3>
 <a id="placeholders" class="anchor" href="#placeholders" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Placeholders</h3>
 
-<p>Following are the list of placeholders currently supprted by this plugin</p>
+<p>The Following placeholders are currently supported by this plugin</p>
 
 <h4>
 <a id="date--time" class="anchor" href="#date--time" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Date &amp; Time</h4>
@@ -177,11 +234,9 @@
 
 <ul>
 <li>
-<code>PROJECT</code> : Name of the project, <code>g:tmpl_project</code>, default: <code>''</code>
-</li>
+<code>PROJECT</code> : Name of the project, <code>g:tmpl_project</code>, default: not expanded</li>
 <li>
-<code>COMPANY</code> : Name of the company, <code>g:tmpl_company</code>, default: <code>''</code>
-</li>
+<code>COMPANY</code> : Name of the company, <code>g:tmpl_company</code>, default: not expanded</li>
 <li>
 <code>MACRO_GUARD</code> : Macro guard for use in c/c++ files. <code>filename.h -&gt; FILENAME_H</code>. All dots(.) and dashes (-) present in filename are converted into underscores (_).</li>
 <li>
@@ -193,11 +248,6 @@
 <li>
 <code>CURSOR</code> : This is a spacial placeholder, it does not expand into anything but the cursor is placed at this location after the template expansion</li>
 </ul>
-
-<h2>
-<a id="auto-initialization" class="anchor" href="#auto-initialization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Auto initialization</h2>
-
-<p>By default auto initialization is set to true, so whenever a new file is created, file is automatically initialized with matching template. However you can dissable it by seting <code>g:tmpl_auto_initialize</code> to <code>0</code> in your .vimrc file.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/tibabit/vim-templates">vim-templates</a> is maintained by <a href="https://github.com/tibabit">tibabit</a>.</span>
