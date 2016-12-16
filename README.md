@@ -87,7 +87,7 @@ set g:tmpl_search_paths = ['~/templates']
   ```
   let g:tmpl_author_email = 'john.doe@example.com'
   ```
-  in your ``.vimrc``.   
+  in your ``.vimrc``.
   In the projects inside the folder `$HOME/my_cool_stuff`, however,
   you want your templates to show the email address ``johns_projects@example.com``.
   So inside ``$HOME/templates`` you place a file ``$HOME/my_cool_stuff/tmpl_settings.vim``
@@ -112,7 +112,7 @@ The Following placeholders are currently supported by this plugin
 - `TODAY`: Todays date in dd/mm/yyyy format
 - `TIME` : Current time in 24 our format
 - `TIME_12` : Current time in 12 hour format
-- `TIMESTAMP` : Current Timestamp, e.g.: Sunday Nov 27, 2016 15:33:33 IST 
+- `TIMESTAMP` : Current Timestamp, e.g.: Sunday Nov 27, 2016 15:33:33 IST
 
 #### Authoring
 - `NAME` : Name of the author, `g:tmpl_author_name`, default : `$USER`
@@ -127,6 +127,13 @@ The Following placeholders are currently supported by this plugin
 
 #### License and Copyright
 - `LICENSE` : License of the project, `g:tmpl_license`, default : `MIT`
+- `LICENSE_FILE` : Reads lincese from license file onto the next line, `g:tmpl_license_file`. If no file path is provided
+    then file is read in following order-
+    - LICENSE
+    - LICENSE.txt
+    - LICENSE.md
+    - license.txt
+    - license.md
 - `COPYRIGHT` : Copyright message, `g:tmpl_copyright`, default : `Copyright (c) g:tmpl_company`
 
 #### Others
