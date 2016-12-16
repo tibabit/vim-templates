@@ -90,6 +90,51 @@ function <SID>ExpandOtherTemplates()
     endif
 endfunction
 
+function <SID>ExpandLicenseFile()
+    normal gg " go to first line
+    " serach for LICENSE_FILE
+    if !(search('{{LICENSE_FILE}}', 'W'))
+        return
+    endif
+
+    let l:lineno = line('.')
+    let l:colno = col('.')
+    s/{{LICENSE_FILE}}// " remove license file
+    call cursor(l:lineno, l:colno)
+
+    " Expand lincense file
+    " Read license file contents
+    let l:license_files = [
+                \ 'LICENSE',
+                \ 'LICENSE.txt',
+                \ 'LICENSE.md',
+                \ 'license.txt',
+                \ 'license.md']
+    if (exists('g:tmpl_license_file'))
+        let l:file_name = fnameescape(g:tmpl_license_file)
+        if (filereadable(l:file_name))
+            let l:license_file = expand(l:file_name)
+        else
+            echom 'file '.l:file_name.' does not exist or cannot be read'
+        endif
+    else
+        for l:file in l:license_files
+            let l:file_name = fnameescape(l:file)
+            if (filereadable(l:file_name))
+                let l:license_file = expand(l:file_name)
+                break
+            endif
+        endfor
+    endif
+
+    if exists('l:license_file')
+        " if license file is found then read it's content starting from next
+        " line
+        " expand path before reading it
+        execute 'r '. expand(l:license_file)
+    endif
+endfunction
+
 function <SID>ExpandLicenseTemplates()
     let l:license = exists('g:tmpl_license') ? g:tmpl_license : 'MIT'
 
@@ -99,36 +144,8 @@ function <SID>ExpandLicenseTemplates()
     call <SID>ExpandTemplate('LICENSE', l:license)
     call <SID>ExpandTemplate('COPYRIGHT', l:copyright)
 
-    " Expand lincense file
+    call <SID>ExpandLicenseFile()
 
-    " Read license file contents
-    " let l:license_files = [
-    "             \ 'LICENSE',
-    "             \ 'LICENSE.txt',
-    "             \ 'LICENSE.md',
-    "             \ 'license.txt',
-    "             \ 'license.md']
-    " if (exists('g:tmpl_license_file'))
-    "     let l:file_name = fnameescape(g:tmpl_license_file)
-    "     if (filereadable(l:file_name))
-    "         let l:license = join(readfile(l:file_name), '\n')
-    "     else
-    "         echom 'file '.l:file_name.' does not exist or cannot be read'
-    "     endif
-    " else
-    "     for l:file in l:license_files
-    "         let l:file_name = fnameescape(l:file)
-    "         if (filereadable(l:file_name))
-    "             let l:license = join(readfile(l:file_name), '\n')
-    "             break
-    "         else
-    "             echom 'file '.l:file_name.' does not exist or cannot be read'
-    "         endif
-    "     endfor
-    " endif
-
-    " expand license file content
-    " call <SID>ExpandTemplate('LICENSE_FILE', l:license)
 
 endfunction
 

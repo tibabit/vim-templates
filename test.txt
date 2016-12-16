@@ -34,3 +34,5 @@
 
 
 #endif // {{MACRO_GUARD_FULL}}
+
+{{LICENSE_FILE}}
