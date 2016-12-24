@@ -1,4 +1,4 @@
-# vim-templates
+# vim-templates ([vimawesome](http://vimawesome.com/plugin/vim-templates-are-made-of))
 Create files from predefined templates
 
 ## Installation
