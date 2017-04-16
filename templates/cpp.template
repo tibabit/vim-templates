@@ -4,7 +4,7 @@
  * @created     : {{TIMESTAMP}}
  */
 
-#include "{{FILEE}}"
+#include "{{FILE}}.h"
 
 {{CLASS}}::{{CLASS}}()
 {

@@ -4,4 +4,4 @@
  * @created     : {{TIMESTAMP}}
  */
 
-#include "{{FILEE}}"
+#include "{{FILE}}.h"
