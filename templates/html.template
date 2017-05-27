@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <title>{{CURSOR}}</title>
+    </header>
+    <body>
+        <div></div>
+    </body>
+</html>
