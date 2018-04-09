@@ -174,20 +174,20 @@ endfunction
 
 " Expand all templates present in current file
 function <SID>ExpandAllTemplates()
-    normal mm " mark the current position so that we can return to it if cursor is not found
+    "normal mm " mark the current position so that we can return to it if cursor is not found
 
     call <SID>ExpandTimestampTemplates()
     call <SID>ExpandAuthoringTemplates()
     call <SID>ExpandFilePathTemplates()
     call <SID>ExpandOtherTemplates()
-    call <SID>ExpandLicenseTemplates()
+    "call <SID>ExpandLicenseTemplates()
     call <SID>ExpandLanguageTemplates()
 
-    let l:cursor_found = <SID>MoveCursor()
+    "let l:cursor_found = <SID>MoveCursor()
 
-    if !l:cursor_found
-        normal `m " return to old cursor position
-    endif
+    "if !l:cursor_found
+    ""    normal `m " return to old cursor position
+    "endif
 endfunction
 
 " If the settings file exits in the template directory, then
@@ -254,7 +254,7 @@ function <SID>InitializeTemplate(...)
     for l:path in l:tmpl_paths
         let l:initialized = <SID>InitializeTemplateForExtension(l:extension, l:path)
         if (l:initialized)
-            call <SID>ExpandAllTemplates()
+            "call <SID>ExpandAllTemplates()
             break
         endif
     endfor
