@@ -178,14 +178,14 @@ endfunction
 
 " Expand all templates present in current file
 function <SID>ExpandAllTemplates()
-" mark the current position so that we can return to it if cursor is not found
+    " mark the current position so that we can return to it if cursor is not found
     normal mm
 
     call <SID>ExpandTimestampTemplates()
     call <SID>ExpandAuthoringTemplates()
     call <SID>ExpandFilePathTemplates()
     call <SID>ExpandOtherTemplates()
-    "call <SID>ExpandLicenseTemplates()
+    call <SID>ExpandLicenseTemplates()
     call <SID>ExpandLanguageTemplates()
 
     let l:cursor_found = <SID>MoveCursor()
@@ -260,7 +260,7 @@ function <SID>InitializeTemplate(...)
     for l:path in l:tmpl_paths
         let l:initialized = <SID>InitializeTemplateForExtension(l:extension, l:path)
         if (l:initialized)
-            "call <SID>ExpandAllTemplates()
+            call <SID>ExpandAllTemplates()
             break
         endif
     endfor
