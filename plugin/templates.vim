@@ -91,7 +91,8 @@ function <SID>ExpandOtherTemplates()
 endfunction
 
 function <SID>ExpandLicenseFile()
-    normal gg " go to first line
+    " go to first line
+    normal gg
     " serach for LICENSE_FILE
     if !(search('{{LICENSE_FILE}}', 'W'))
         return
@@ -99,7 +100,8 @@ function <SID>ExpandLicenseFile()
 
     let l:lineno = line('.')
     let l:colno = col('.')
-    s/{{LICENSE_FILE}}// " remove license file
+     " remove license file
+    s/{{LICENSE_FILE}}//
     call cursor(l:lineno, l:colno)
 
     " Expand lincense file
@@ -160,12 +162,14 @@ function <SID>ExpandLanguageTemplates()
 endfunction
 
 function <SID>MoveCursor()
-    normal gg " go to first line
+    " go to first line
+    normal gg
     " serach for cursor if it is found then move cursor there
     if (search('{{CURSOR}}', 'W'))
         let l:lineno = line('.')
         let l:colno = col('.')
-        s/{{CURSOR}}// " remove cursor
+        " remove cursor
+        s/{{CURSOR}}//
         call cursor(l:lineno, l:colno)
         return 1
     endif
@@ -174,7 +178,8 @@ endfunction
 
 " Expand all templates present in current file
 function <SID>ExpandAllTemplates()
-    normal mm " mark the current position so that we can return to it if cursor is not found
+    " mark the current position so that we can return to it if cursor is not found
+    normal mm
 
     call <SID>ExpandTimestampTemplates()
     call <SID>ExpandAuthoringTemplates()
@@ -186,7 +191,8 @@ function <SID>ExpandAllTemplates()
     let l:cursor_found = <SID>MoveCursor()
 
     if !l:cursor_found
-        normal `m " return to old cursor position
+    " return to old cursor position
+        normal `m
     endif
 endfunction
 
