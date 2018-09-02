@@ -1,9 +1,7 @@
-import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import React, {Component}  from 'react'
 import PropTypes from 'prop-types'
-import { } from 'semantic-ui-react'
 
-export default class {{FILE}} extends TrackerReact(Component) {
+export default class {{FILE}} extends Component {
   static propTypes = {
   }
 
