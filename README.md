@@ -33,7 +33,7 @@ This can be disabled by setting `g:tmpl_auto_initialize` to `0` in your `.vimrc`
   can name it `cppmain.template` or `cppm.template`
 - Open the file and edit, for example
 
-header.h
+h.template
 ```CPP
 /**
  * @author	: {{NAME}} ({{EMAIL}})
@@ -50,7 +50,7 @@ header.h
 
 ```
 
-it becomes this-
+generates this for a file named **header.h**
 
 ```CPP
 /**
