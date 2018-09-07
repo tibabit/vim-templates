@@ -32,22 +32,43 @@ This can be disabled by setting `g:tmpl_auto_initialize` to `0` in your `.vimrc`
   e.g. if you want to create a template file for a c++ main file you
   can name it `cppmain.template` or `cppm.template`
 - Open the file and edit, for example
+
+header.h
 ```CPP
 /**
- * @author		: {{NAME}} ({{EMAIL}})
- * @created		: {{TODAY}}
+ * @author	: {{NAME}} ({{EMAIL}})
+ * @created	: {{TODAY}}
  * @filename	: {{FILE}}
  */
+ 
+ #ifndef {{MACRO_GUARD}}
+ #define {{MACRO_GUARD}}
+ 
+ /* declarations */
+ 
+ #endif /* {{MACRO_GUARD}} */
 
-#include <iostream>
-
-using namespace std;
-
-int main(int argc, char** argv)
-{
-	return 0;
-}
 ```
+
+it becomes this-
+
+```CPP
+/**
+ * @author	: Vikas Kesarwani (vikash@abc.com)
+ * @created	: 07/09/2018
+ * @filename	: header
+ */
+ 
+ #ifndef HEADER_H
+ #define HEADER_H
+ 
+ /* declarations */
+ 
+ #endif /* HEADER_H */
+
+```
+
+
 - `{{NAME}}`, `{{EMAIL}}`, `{{FILE}}` and `{{TODAY}}`
 defined above are placeholders, which are expanded as soon as you call
 ``:TemplateExpand``.
