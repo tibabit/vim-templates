@@ -89,7 +89,7 @@ If you want to add a custom directory to the search path,
 e.g. if you placed them inside a ``templates`` directory under ``$HOME`` then
 add the following line in your ``.vimrc`` file:
 ```
-set g:tmpl_search_paths = ['~/templates']
+let g:tmpl_search_paths = ['~/templates']
 ```
 
 ### Configuring the placeholder values
