@@ -65,7 +65,7 @@ endfunction
 function <SID>ExpandAuthoringTemplates()
 
     let l:author_name = exists('g:tmpl_author_name') ? g:tmpl_author_name : expand('$USER')
-    let l:author_hostname = exists('g:tmpl_author_hostname') ? g:tmpl_author_name : expand('$HOSTNAME')
+    let l:author_hostname = exists('g:tmpl_author_hostname') ? g:tmpl_author_hostname : expand('$HOSTNAME')
     let l:author_email = exists('g:tmpl_author_email') ? g:tmpl_author_email :
                 \ expand('$USER') .'@'. expand('$HOSTNAME')
 
