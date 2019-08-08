@@ -163,6 +163,6 @@ The Following placeholders are currently supported by this plugin
 - `MACRO_GUARD` : Macro guard for use in c/c++ files. `filename.h -> FILENAME_H`. All dots(.) and dashes (-) present in filename are converted into underscores (_).
 - `MACRO_GUARD_FULL` : Same as `MACRO_GUARD`, except relative path is used in place of file name. e.g. `relative/to/filename.h -> RELATIVE_TO_FILENAME_H`
 - `CLASS` : class name, same as `FILE`
-- `CLASS` : class name converted to camel case (first letters of words capitalized and underscores removed)
+- `CAMEL_CLASS` : class name converted to camel case (first letters of words capitalized and underscores removed)
 - `CURSOR` : This is a spacial placeholder, it does not expand into anything but the cursor is placed at this location after the template expansion
 
