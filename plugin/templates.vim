@@ -22,7 +22,7 @@ endif
 " COMPANY:      COMAPNY
 " CURSOR:       CURSOR
 " LICENSE:      LICENSE, LICENSE_FILE, COPYRIGHT
-" LANGUAGES:    MACRO_GUARD, MACRO_GUARD_FULL, CLASS
+" LANGUAGES:    MACRO_GUARD, MACRO_GUARD_FULL, CLASS, CAMEL_CLASS
 
 function <SID>EscapeTemplate(tmpl)
     return escape(a:tmpl, '/')
@@ -34,6 +34,10 @@ endfunction
 
 function <SID>PrepareMacro(str)
     return toupper(tr(a:str, '/.-', '___'))
+endfunction
+
+function <SID>PrepareCamelClass(str)
+    return substitute(substitute(a:str, '\(^\|_\)\(\a\)', '\1\U\2', 'g'), '_', '', 'g')
 endfunction
 
 function <SID>ExpandTimestampTemplates()
@@ -155,10 +159,12 @@ function <SID>ExpandLanguageTemplates()
     let l:macro_guard = <SID>PrepareMacro(expand('%:t'))
     let l:macro_guard_full = <SID>PrepareMacro(@%)
     let l:filename = expand("%:t:r")
+    let l:camelclass = <SID>PrepareCamelClass(l:filename)
 
     call <SID>ExpandTemplate('MACRO_GUARD', l:macro_guard)
     call <SID>ExpandTemplate('MACRO_GUARD_FULL', l:macro_guard_full)
     call <SID>ExpandTemplate('CLASS', l:filename)
+    call <SID>ExpandTemplate('CAMEL_CLASS', l:camelclass)
 endfunction
 
 function <SID>MoveCursor()
