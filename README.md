@@ -1,18 +1,25 @@
 # vim-templates ([vimawesome](http://vimawesome.com/plugin/vim-templates-are-made-of))
+
 Create files from predefined templates
 
 ## Installation
+
 ### Vundle
-```
+
+```vim
 Plugin 'tibabit/vim-templates'
 ```
+
 ### vim-plug
-```
+
+```vim
 Plug 'tibabit/vim-templates'
 ```
 
-# Usage
-## Using default templates
+## Usage
+
+### Using default templates
+
 - `TemplateInit` - Takes 0 or more arguments, initializes file with the template and expands all placeholders defined in the template.
   The argument provided is the name of the template file, in most cases the extension of the file.
   If no argument is provided file extension is extracted from file name (e.g. ``:TemplateInit cpp``)
@@ -20,13 +27,16 @@ Plug 'tibabit/vim-templates'
 - `TemplateExpand`-  Does not take any argument, expands all the placeholders present in file.
   Helpful for updating an existing file
 
-## Auto initialization
+### Auto initialization
+
 By default auto initialization is set to true, so whenever a new file is created,
 the file is automatically initialized if a template matches.
 This can be disabled by setting `g:tmpl_auto_initialize` to `0` in your `.vimrc`.
 
-# Customization
-## Creating your own templates
+## Customization
+
+### Creating your own templates
+
 - Create a file `<template_name>.template` inside a folder which is searched
   by the plugin( [see below](#search-paths)),
   e.g. if you want to create a template file for a c++ main file you
@@ -34,40 +44,37 @@ This can be disabled by setting `g:tmpl_auto_initialize` to `0` in your `.vimrc`
 - Open the file and edit, for example
 
 h.template
-```CPP
-/**
- * @author	: {{NAME}} ({{EMAIL}})
- * @created	: {{TODAY}}
- * @filename	: {{FILE}}
- */
- 
- #ifndef {{MACRO_GUARD}}
- #define {{MACRO_GUARD}}
- 
- /* declarations */
- 
- #endif /* {{MACRO_GUARD}} */
 
+```cpp
+/**
+ * @author      : {{NAME}} ({{EMAIL}})
+ * @created     : {{TODAY}}
+ * @filename    : {{FILE}}
+ */
+#ifndef {{MACRO_GUARD}}
+#define {{MACRO_GUARD}}
+
+/* declarations */
+
+#endif /* {{MACRO_GUARD}} */
 ```
 
 generates this for a file named **header.h**
 
-```CPP
+```cpp
 /**
- * @author	: Vikas Kesarwani (vikash@abc.com)
- * @created	: 07/09/2018
- * @filename	: header
+ * @author      : Vikas Kesarwani (vikash@abc.com)
+ * @created     : 07/09/2018
+ * @filename    : header
  */
- 
- #ifndef HEADER_H
- #define HEADER_H
- 
- /* declarations */
- 
- #endif /* HEADER_H */
 
+#ifndef HEADER_H
+#define HEADER_H
+
+/* declarations */
+
+#endif /* HEADER_H */
 ```
-
 
 - `{{NAME}}`, `{{EMAIL}}`, `{{FILE}}` and `{{TODAY}}`
 defined above are placeholders, which are expanded as soon as you call
@@ -75,8 +82,8 @@ defined above are placeholders, which are expanded as soon as you call
 - In a new file type ``:TemplateInit cppmain`` to both place the above
   content inside the file and expand the placeholders.
 
-
 ### Search paths
+
 The plugin searches for templates as follows
 
 1. In folders named `templates` recursively up the directory tree,
@@ -88,11 +95,13 @@ The plugin searches for templates as follows
 If you want to add a custom directory to the search path,
 e.g. if you placed them inside a ``templates`` directory under ``$HOME`` then
 add the following line in your ``.vimrc`` file:
-```
+
+```vim
 let g:tmpl_search_paths = ['~/templates']
 ```
 
 ### Configuring the placeholder values
+
 - The values into which certain placeholders expand may be influenced
   by settings in your `.vimrc`. For example `PROJECT` expands into the
   value of the variable `g:tmpl_project`. For more details see the
@@ -105,24 +114,30 @@ let g:tmpl_search_paths = ['~/templates']
   If this is the case all its settings take preference over the ``.vimrc``
 - For example: In general you want the placeholder ``EMAIL`` to expand to
   ``john.doe@example.com`` in your templates, hence you place
-  ```
+
+  ```vim
   let g:tmpl_author_email = 'john.doe@example.com'
   ```
+
   in your ``.vimrc``.
   In the projects inside the folder `$HOME/my_cool_stuff`, however,
   you want your templates to show the email address ``johns_projects@example.com``.
   So inside ``$HOME/templates`` you place a file ``$HOME/my_cool_stuff/tmpl_settings.vim``
   with content
-  ```
+
+  ```vim
   let g:tmpl_author_email = 'johns_projects@example.com'
   ```
+
   and all template files in ``$HOME/my_cool_stuff`` will now have `EMAIL`
   expanding to the latter value.
 
 ### Placeholders
+
 The Following placeholders are currently supported by this plugin
 
 #### Date & Time
+
 - `DAY` : Day of the week in short form (Mon, Tue, Wed, etc,)
 - `DAY_FULL` : Day of the week in full (Monday, Tueseday, etc.)
 - `DATE` : Date of the month (01 to 31)
@@ -136,28 +151,31 @@ The Following placeholders are currently supported by this plugin
 - `TIMESTAMP` : Current Timestamp, e.g.: Sunday Nov 27, 2016 15:33:33 IST
 
 #### Authoring
+
 - `NAME` : Name of the author, `g:tmpl_author_name`, default : `$USER`
 - `HOSTNAME` : Name of the host machine, `g:tmpl_author_hostname`, default : `$HOSTNAME`
 - `EMAIL` : Email of the author, `g:tmpl_author_email`, default : `$USER@$HOSTNAME`
 
 #### File name
+
 - `FILE` : Basename of the file `filename.ext -> filename`
 - `FILEE` : Filename with extension `filename.ext -> filename.ext`
 - `FILEF` : Absolute path of the file `/path/to/directory/filename.ext`
 - `FILER` : Filepath relative to the current directory (pwd)`/relative/to/filename.ext`
 
 #### License and Copyright
+
 - `LICENSE` : License of the project, `g:tmpl_license`, default : `MIT`
-- `LICENSE_FILE` : Reads lincese from license file onto the next line, `g:tmpl_license_file`. If no file path is provided
-    then file is read in following order-
-    - LICENSE
-    - LICENSE.txt
-    - LICENSE.md
-    - license.txt
-    - license.md
+- `LICENSE_FILE` : Reads lincese from license file onto the next line, `g:tmpl_license_file`. If no file path is provided then file is read in following order-
+  - LICENSE
+  - LICENSE.txt
+  - LICENSE.md
+  - license.txt
+  - license.md
 - `COPYRIGHT` : Copyright message, `g:tmpl_copyright`, default : `Copyright (c) g:tmpl_company`
 
-#### Others
+### Others
+
 - `PROJECT` : Name of the project, `g:tmpl_project`, default: not expanded
 - `COMPANY` : Name of the company, `g:tmpl_company`, default: not expanded
 - `MACRO_GUARD` : Macro guard for use in c/c++ files. `filename.h -> FILENAME_H`. All dots(.) and dashes (-) present in filename are converted into underscores (_).
@@ -165,4 +183,3 @@ The Following placeholders are currently supported by this plugin
 - `CLASS` : class name, same as `FILE`
 - `CAMEL_CLASS` : class name converted to camel case (first letters of words capitalized and underscores removed)
 - `CURSOR` : This is a spacial placeholder, it does not expand into anything but the cursor is placed at this location after the template expansion
-
