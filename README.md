@@ -1,6 +1,6 @@
 # vim-templates ([vimawesome](http://vimawesome.com/plugin/vim-templates-are-made-of))
 
-Create files from predefined templates
+Create files from predefined templates. Templates are files with `.template` extension.
 
 ## Installation
 
@@ -20,9 +20,11 @@ Plug 'tibabit/vim-templates'
 
 ### Using default templates
 
-- `TemplateInit` - Takes 0 or more arguments, initializes file with the template and expands all placeholders defined in the template.
-  The argument provided is the name of the template file, in most cases the extension of the file.
-  If no argument is provided file extension is extracted from file name (e.g. ``:TemplateInit cpp``)
+- `TemplateInit` - Takes 0 or 1 argument, initializes file with the template and expands all placeholders defined in the template.
+  The argument provided can be either the name of the template file, in most cases the extension of the file, but it can be anything. e.g. you can define template for all java files in java.template and you can define template for Program.java in Program.java.template or for Makefile in Makefile.template. (e.g. `:TemplateInit cpp`, `:TemplateInit main.cpp`)
+  If no argument is provided filename and extension is extracted from file name (e.g. `:TemplateInit`).
+
+> **NOTE**: All file names are case sensitive.
 
 - `TemplateExpand`-  Does not take any argument, expands all the placeholders present in file.
   Helpful for updating an existing file
@@ -30,7 +32,7 @@ Plug 'tibabit/vim-templates'
 ### Auto initialization
 
 By default auto initialization is set to true, so whenever a new file is created,
-the file is automatically initialized if a template matches.
+the file is automatically initialized if a template matches (**for file name or file extension, since file name is more specific, it is given priority over file extension**).
 This can be disabled by setting `g:tmpl_auto_initialize` to `0` in your `.vimrc`.
 
 ## Customization
@@ -81,6 +83,8 @@ defined above are placeholders, which are expanded as soon as you call
 ``:TemplateExpand``.
 - In a new file type ``:TemplateInit cppmain`` to both place the above
   content inside the file and expand the placeholders.
+- If templte file name (after removing `.template` from file name) matches the current file name or extension it is automatically imported and expnded when you create a new file.
+- You can also use `TemplateAutoInit` vim command to import and expand templates. This command will insert and expand the template at line below the cursor.
 
 ### Search paths
 
