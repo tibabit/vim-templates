@@ -222,9 +222,12 @@ function <SID>TryReadSettings(template_path)
     endif
 endfunction
 
-" Initialize template from given template search path
-function <SID>InitializeTemplateForExtension(extension, template_path)
-    let l:template_path = fnameescape(a:template_path.'/'.a:extension.'.template')
+" Initialize template from given template search path and filepart
+" filepart can be either can be anything which ends with .template
+" e.g. if your file template is in file named any-thing.template then
+" filepart should be any-thing
+function <SID>InitializeTemplateForExtension(filepart, template_path)
+    let l:template_path = fnameescape(a:template_path.'/'.a:filepart.'.template')
     if (filereadable(l:template_path))
         call <SID>TryReadSettings(a:template_path)
         execute 'silent 0r '.l:template_path
@@ -239,8 +242,9 @@ let s:default_template_directory = expand('<sfile>:p:h:h') . '/templates'
 
 " Insert content of template file for current file into the buffer and expand
 " all templates
-" @param a:ext extension of current file or empty, in which case extension
-" will be automatically detected
+" @param a:ext extension / filename of current file or empty, in which case filename and extension
+" will be automatically detected and will be used to find template files. filename will be given
+" higher priority on extension
 function <SID>InitializeTemplate(...)
     " Paths to search for templates files
     let l:tmpl_paths = finddir("templates", ";",-1)
@@ -256,17 +260,24 @@ function <SID>InitializeTemplate(...)
     " default template path
     let l:tmpl_paths = add(l:tmpl_paths, s:default_template_directory)
 
-    " get extension of file
+    let l:fileparts = []
     if (a:0 == 0)
-        let l:extension = expand('%:e')
+        " get filename and extension
+        let l:fileparts = add(l:fileparts, expand('%')) " full file name
+        let l:fileparts = add(l:fileparts, expand('%:e')) " file extension
     else
-        let l:extension = a:1
+        let l:fileparts = add(l:fileparts, a:1)
     endif
 
-    for l:path in l:tmpl_paths
-        let l:initialized = <SID>InitializeTemplateForExtension(l:extension, l:path)
+    for l:filepart in l:fileparts
+        for l:path in l:tmpl_paths
+            let l:initialized = <SID>InitializeTemplateForExtension(l:filepart, l:path)
+            if (l:initialized)
+                call <SID>ExpandAllTemplates()
+                break
+            endif
+        endfor
         if (l:initialized)
-            call <SID>ExpandAllTemplates()
             break
         endif
     endfor
