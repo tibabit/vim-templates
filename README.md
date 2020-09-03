@@ -166,6 +166,7 @@ The Following placeholders are currently supported by this plugin
 - `FILEE` : Filename with extension `filename.ext -> filename.ext`
 - `FILEF` : Absolute path of the file `/path/to/directory/filename.ext`
 - `FILER` : Filepath relative to the current directory (pwd)`/relative/to/filename.ext`
+- `FILED` : Absolute path of the file's parent directory `/path/to/directory`
 
 #### License and Copyright
 
