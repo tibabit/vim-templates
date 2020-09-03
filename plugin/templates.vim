@@ -185,7 +185,7 @@ endfunction
 " Expand all templates present in current file
 function <SID>ExpandAllTemplates()
     " mark the current position so that we can return to it if cursor is not found
-    normal mm
+    normal! mm
 
     call <SID>ExpandTimestampTemplates()
     call <SID>ExpandAuthoringTemplates()
