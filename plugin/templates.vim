@@ -17,12 +17,12 @@ endif
 " TIMESTAMP:    DAY, DAY_FULL, DATE, MONTH, MONTH_SHORT, MONTH_FULL,
 "               YEAR, TODAY, TIME, TIME_12, TIMESTAMP
 " AUTHOR:       NAME, HOSTNAME, EMAIL
-" FILE:         FILE, FILEE, FILEF, FILER
+" FILE:         FILE, FILEE, FILEF, FILER, FILED
 " PROJECT:      PROJECT
 " COMPANY:      COMAPNY
 " CURSOR:       CURSOR
 " LICENSE:      LICENSE, LICENSE_FILE, COPYRIGHT
-" LANGUAGES:    MACRO_GUARD, MACRO_GUARD_FULL, CLASS, CAMEL_CLASS
+" LANGUAGES:    MACRO_GUARD, MACRO_GUARD_FULL, CLASS, CAMEL_CLASS, SNAKE_CLASS
 
 function <SID>EscapeTemplate(tmpl)
     return escape(a:tmpl, '/')
@@ -38,6 +38,10 @@ endfunction
 
 function <SID>PrepareCamelClass(str)
     return substitute(substitute(a:str, '\(^\|_\)\(\a\)', '\1\U\2', 'g'), '_', '', 'g')
+endfunction
+
+function <SID>PrepareSnakeClass(str)
+    return substitute(substitute(a:str, '^\(\u\)', '\l\1', ''), '\(\u\)', '_\l\1', 'g')
 endfunction
 
 function <SID>ExpandTimestampTemplates()
@@ -83,6 +87,7 @@ function <SID>ExpandFilePathTemplates()
     call <SID>ExpandTemplate('FILEE', expand('%:t'))
     call <SID>ExpandTemplate('FILEF', expand('%:p'))
     call <SID>ExpandTemplate('FILER', @%)
+    call <SID>ExpandTemplate('FILED', expand('%:p:h'))
 endfunction
 
 function <SID>ExpandOtherTemplates()
@@ -160,11 +165,13 @@ function <SID>ExpandLanguageTemplates()
     let l:macro_guard_full = <SID>PrepareMacro(@%)
     let l:filename = expand("%:t:r")
     let l:camelclass = <SID>PrepareCamelClass(l:filename)
+	let l:snakeclass = <SID>PrepareSnakeClass(l:filename)
 
     call <SID>ExpandTemplate('MACRO_GUARD', l:macro_guard)
     call <SID>ExpandTemplate('MACRO_GUARD_FULL', l:macro_guard_full)
     call <SID>ExpandTemplate('CLASS', l:filename)
     call <SID>ExpandTemplate('CAMEL_CLASS', l:camelclass)
+    call <SID>ExpandTemplate('SNAKE_CLASS', l:snakeclass)
 endfunction
 
 function <SID>MoveCursor()

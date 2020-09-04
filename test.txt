@@ -9,6 +9,7 @@
 {{FILEE}}
 {{FILEF}}
 {{FILER}}
+{{FILED}}
 {{HOSTNAME}}
 {{LICENSE}}
 {{CURSOR}}
