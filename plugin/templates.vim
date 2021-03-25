@@ -9,6 +9,7 @@ endif
 
 let g:vt_plugin_loaded = 1
 
+
 if !exists('g:tmpl_auto_initialize')
     let g:tmpl_auto_initialize = 1
 endif
@@ -233,8 +234,15 @@ endfunction
 " filepart can be either can be anything which ends with .template
 " e.g. if your file template is in file named any-thing.template then
 " filepart should be any-thing
-function <SID>InitializeTemplateForExtension(filepart, template_path)
-    let l:template_path = fnameescape(a:template_path.'/'.a:filepart.'.template')
+function <SID>InitializeTemplateForFile(filepart, template_path)
+
+    let l:resource=a:filepart
+
+    if (exists('g:vt_use_filetype') && g:vt_use_filetype == 1)
+        let l:resource=&filetype
+    endif
+
+    let l:template_path = fnameescape(a:template_path.'/' . l:resource . '.template')
     if (filereadable(l:template_path))
         call <SID>TryReadSettings(a:template_path)
         execute 'silent 0r '.l:template_path
@@ -278,7 +286,7 @@ function <SID>InitializeTemplate(...)
 
     for l:filepart in l:fileparts
         for l:path in l:tmpl_paths
-            let l:initialized = <SID>InitializeTemplateForExtension(l:filepart, l:path)
+            let l:initialized = <SID>InitializeTemplateForFile(l:filepart, l:path)
             if (l:initialized)
                 call <SID>ExpandAllTemplates()
                 break
