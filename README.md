@@ -168,6 +168,7 @@ The Following placeholders are currently supported by this plugin
 - `FILER` : Filepath relative to the current directory (pwd)`/relative/to/filename.ext`
 - `FILED` : Absolute path of the file's parent directory `/path/to/directory`
 - `FILEP` : The file's parent directory `/path/to/directory -> directory`
+- `FILERD` : Directory relative to the current directory (pwd)`/relative/to/`
 
 #### License and Copyright
 
