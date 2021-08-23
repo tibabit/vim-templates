@@ -17,7 +17,7 @@ endif
 " TIMESTAMP:    DAY, DAY_FULL, DATE, MONTH, MONTH_SHORT, MONTH_FULL,
 "               YEAR, TODAY, TIME, TIME_12, TIMESTAMP
 " AUTHOR:       NAME, HOSTNAME, EMAIL
-" FILE:         FILE, FILEE, FILEF, FILER, FILED
+" FILE:         FILE, FILEE, FILEF, FILER, FILED, FILEP, FILERD
 " PROJECT:      PROJECT
 " COMPANY:      COMAPNY
 " CURSOR:       CURSOR
@@ -88,6 +88,8 @@ function <SID>ExpandFilePathTemplates()
     call <SID>ExpandTemplate('FILEF', expand('%:p'))
     call <SID>ExpandTemplate('FILER', @%)
     call <SID>ExpandTemplate('FILED', expand('%:p:h'))
+    call <SID>ExpandTemplate('FILEP', expand('%:h:t'))
+    call <SID>ExpandTemplate('FILERD', expand('%:h'))
 endfunction
 
 function <SID>ExpandOtherTemplates()
