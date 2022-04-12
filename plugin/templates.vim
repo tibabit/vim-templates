@@ -145,6 +145,9 @@ function <SID>ExpandLicenseFile()
         " line
         " expand path before reading it
         execute 'r '. expand(l:license_file)
+    else
+        let l:license = exists('g:tmpl_license') ? g:tmpl_license : 'MIT'
+        exe "normal! a" . l:license ."\<Esc>"
     endif
 endfunction
 
