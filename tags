@@ -1,0 +1,31 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AutoInitializeTemplate	plugin/templates.vim	/^function <SID>AutoInitializeTemplate()$/;"	f
+EscapeTemplate	plugin/templates.vim	/^function <SID>EscapeTemplate(tmpl)$/;"	f
+ExpandAllTemplates	plugin/templates.vim	/^function <SID>ExpandAllTemplates()$/;"	f
+ExpandAuthoringTemplates	plugin/templates.vim	/^function <SID>ExpandAuthoringTemplates()$/;"	f
+ExpandFilePathTemplates	plugin/templates.vim	/^function <SID>ExpandFilePathTemplates()$/;"	f
+ExpandLanguageTemplates	plugin/templates.vim	/^function <SID>ExpandLanguageTemplates()$/;"	f
+ExpandLicenseFile	plugin/templates.vim	/^function <SID>ExpandLicenseFile()$/;"	f
+ExpandLicenseTemplates	plugin/templates.vim	/^function <SID>ExpandLicenseTemplates()$/;"	f
+ExpandOtherTemplates	plugin/templates.vim	/^function <SID>ExpandOtherTemplates()$/;"	f
+ExpandTemplate	plugin/templates.vim	/^function <SID>ExpandTemplate(tmpl, value)$/;"	f
+ExpandTimestampTemplates	plugin/templates.vim	/^function <SID>ExpandTimestampTemplates()$/;"	f
+InitializeTemplate	plugin/templates.vim	/^function <SID>InitializeTemplate(...)$/;"	f
+InitializeTemplateForExtension	plugin/templates.vim	/^function <SID>InitializeTemplateForExtension(filepart, template_path)$/;"	f
+MoveCursor	plugin/templates.vim	/^function <SID>MoveCursor()$/;"	f
+PrepareCamelClass	plugin/templates.vim	/^function <SID>PrepareCamelClass(str)$/;"	f
+PrepareMacro	plugin/templates.vim	/^function <SID>PrepareMacro(str)$/;"	f
+PrepareSnakeClass	plugin/templates.vim	/^function <SID>PrepareSnakeClass(str)$/;"	f
+TemplateAutoInit	plugin/templates.vim	/^command -nargs=0 TemplateAutoInit       :call <SID>AutoInitializeTemplate()$/;"	c
+TemplateExpand	plugin/templates.vim	/^command -nargs=0 TemplateExpand         :call <SID>ExpandAllTemplates()$/;"	c
+TemplateInit	plugin/templates.vim	/^command -nargs=? TemplateInit           :call <SID>InitializeTemplate(<f-args>)$/;"	c
+TryReadSettings	plugin/templates.vim	/^function <SID>TryReadSettings(template_path)$/;"	f
+g:tmpl_auto_initialize	plugin/templates.vim	/^    let g:tmpl_auto_initialize = 1$/;"	v
+g:vt_plugin_loaded	plugin/templates.vim	/^let g:vt_plugin_loaded = 1$/;"	v
+s:default_template_directory	plugin/templates.vim	/^let s:default_template_directory = expand('<sfile>:p:h:h') . '\/templates'$/;"	v
+s:settings_file	plugin/templates.vim	/^let s:settings_file = "tmpl_settings.vim"$/;"	v
