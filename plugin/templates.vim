@@ -177,6 +177,8 @@ function <SID>ExpandLanguageTemplates()
     call <SID>ExpandTemplate('CLASS', l:filename)
     call <SID>ExpandTemplate('CAMEL_CLASS', l:camelclass)
     call <SID>ExpandTemplate('SNAKE_CLASS', l:snakeclass)
+
+    execute line('$') . "d _"
 endfunction
 
 function <SID>MoveCursor()
