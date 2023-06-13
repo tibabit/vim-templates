@@ -1,3 +1,5 @@
+package {{PACKAGE}};
+
 /**
  * @author      : {{NAME}} ({{EMAIL}})
  * @file        : {{FILE}}

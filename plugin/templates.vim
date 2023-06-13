@@ -22,7 +22,8 @@ endif
 " COMPANY:      COMAPNY
 " CURSOR:       CURSOR
 " LICENSE:      LICENSE, LICENSE_FILE, COPYRIGHT
-" LANGUAGES:    MACRO_GUARD, MACRO_GUARD_FULL, CLASS, CAMEL_CLASS, SNAKE_CLASS
+" LANGUAGES:    MACRO_GUARD, MACRO_GUARD_FULL, CLASS, CAMEL_CLASS,
+"               SNAKE_CLASS, PACKAGE
 
 function <SID>EscapeTemplate(tmpl)
     return escape(a:tmpl, '/')
@@ -42,6 +43,12 @@ endfunction
 
 function <SID>PrepareSnakeClass(str)
     return substitute(substitute(a:str, '^\(\u\)', '\l\1', ''), '\(\u\)', '_\l\1', 'g')
+endfunction
+
+function <SID>PreparePackage(str)
+    let index = stridx(a:str, g:tmpl_java_package_src)
+    let package = strpart(a:str, index)
+    return tolower(tr(package, '/', '.'))
 endfunction
 
 function <SID>ExpandTimestampTemplates()
@@ -171,12 +178,14 @@ function <SID>ExpandLanguageTemplates()
     let l:filename = expand("%:t:r")
     let l:camelclass = <SID>PrepareCamelClass(l:filename)
 	let l:snakeclass = <SID>PrepareSnakeClass(l:filename)
+    let l:package = <SID>PreparePackage(expand('%:p:h'))
 
     call <SID>ExpandTemplate('MACRO_GUARD', l:macro_guard)
     call <SID>ExpandTemplate('MACRO_GUARD_FULL', l:macro_guard_full)
     call <SID>ExpandTemplate('CLASS', l:filename)
     call <SID>ExpandTemplate('CAMEL_CLASS', l:camelclass)
     call <SID>ExpandTemplate('SNAKE_CLASS', l:snakeclass)
+    call <SID>ExpandTemplate('PACKAGE', l:package)
 endfunction
 
 function <SID>MoveCursor()
@@ -268,6 +277,10 @@ function <SID>InitializeTemplate(...)
     for l:path in g:tmpl_search_paths
         let l:tmpl_paths = add(l:tmpl_paths, expand(l:path))
     endfor
+
+    if (!exists('g:tmpl_java_package_src'))
+        let g:tmpl_java_package_src = "com"
+    endif
 
     " default template path
     let l:tmpl_paths = add(l:tmpl_paths, s:default_template_directory)
