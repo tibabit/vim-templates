@@ -46,7 +46,7 @@ function <SID>PrepareSnakeClass(str)
 endfunction
 
 function <SID>PreparePackage(str)
-    let index = stridx(a:str, g:java_package_src)
+    let index = stridx(a:str, g:tmpl_java_package_src)
     let package = strpart(a:str, index)
     return tolower(tr(package, '/', '.'))
 endfunction
@@ -278,8 +278,8 @@ function <SID>InitializeTemplate(...)
         let l:tmpl_paths = add(l:tmpl_paths, expand(l:path))
     endfor
 
-    if (!exists('g:java_package_src'))
-        let g:java_package_src = "com"
+    if (!exists('g:tmpl_java_package_src'))
+        let g:tmpl_java_package_src = "com"
     endif
 
     " default template path
