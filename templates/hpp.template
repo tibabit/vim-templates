@@ -1,13 +1,4 @@
-/**
- * @author      : {{NAME}} ({{EMAIL}})
- * @file        : {{FILE}}
- * @created     : {{TIMESTAMP}}
- */
-
-#ifndef {{MACRO_GUARD}}
-
-#define {{MACRO_GUARD}}
-
+#pragma once
 
 class {{CLASS}}
 {
@@ -18,4 +9,3 @@ class {{CLASS}}
         /* private data */
 };
 
-#endif /* end of include guard {{MACRO_GUARD}} */

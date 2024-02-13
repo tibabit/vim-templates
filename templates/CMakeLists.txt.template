@@ -4,7 +4,7 @@
 # @created     : {{TIMESTAMP}}
 ######################################################################
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.22)
 project({{CURSOR}} C)
 
-add_executable(main main.c)
+add_executable(main main.cpp)
