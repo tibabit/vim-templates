@@ -183,7 +183,7 @@ The Following placeholders are currently supported by this plugin
 
 ### Others
 
-- `PROJECT` : Name of the project, `g:tmpl_project`, default: not expanded
+- `PROJECT` : Name of the project, `g:tmpl_project`, default: Searches for git directory and uses its parent directory for the project Name. If no git directory is found, Project name will be the file name (Same as 'FILE')
 - `COMPANY` : Name of the company, `g:tmpl_company`, default: not expanded
 - `MACRO_GUARD` : Macro guard for use in c/c++ files. `filename.h -> FILENAME_H`. All dots(.) and dashes (-) present in filename are converted into underscores (_).
 - `MACRO_GUARD_FULL` : Same as `MACRO_GUARD`, except relative path is used in place of file name. e.g. `relative/to/filename.h -> RELATIVE_TO_FILENAME_H`

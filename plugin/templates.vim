@@ -44,6 +44,18 @@ function <SID>PrepareSnakeClass(str)
     return substitute(substitute(a:str, '^\(\u\)', '\l\1', ''), '\(\u\)', '_\l\1', 'g')
 endfunction
 
+function <SID>PrepareProject()
+    if (exists('g:tmpl_project'))
+        return g:tmpl_project
+    endif
+    let l:dir = fnamemodify(finddir('.git', expand('%:h')), ':p')
+    if (strlen(l:dir) == 0)
+        return expand('%:t:r')
+    endif
+    let l:pName = split(l:dir, '/')[-1]
+    return l:pName
+endfunction
+
 function <SID>ExpandTimestampTemplates()
     let l:day               = strftime('%a')
     let l:day_full          = strftime('%A')
@@ -93,9 +105,6 @@ function <SID>ExpandFilePathTemplates()
 endfunction
 
 function <SID>ExpandOtherTemplates()
-    if (exists('g:tmpl_project'))
-        call <SID>ExpandTemplate('PROJECT', g:tmpl_project)
-    endif
     if (exists('g:tmpl_company'))
         call <SID>ExpandTemplate('COMPANY', g:tmpl_company)
     endif
@@ -171,12 +180,14 @@ function <SID>ExpandLanguageTemplates()
     let l:filename = expand("%:t:r")
     let l:camelclass = <SID>PrepareCamelClass(l:filename)
 	let l:snakeclass = <SID>PrepareSnakeClass(l:filename)
+    let l:project = <SID>PrepareProject()
 
     call <SID>ExpandTemplate('MACRO_GUARD', l:macro_guard)
     call <SID>ExpandTemplate('MACRO_GUARD_FULL', l:macro_guard_full)
     call <SID>ExpandTemplate('CLASS', l:filename)
     call <SID>ExpandTemplate('CAMEL_CLASS', l:camelclass)
     call <SID>ExpandTemplate('SNAKE_CLASS', l:snakeclass)
+    call <SID>ExpandTemplate('PROJECT', l:project)
 endfunction
 
 function <SID>MoveCursor()
